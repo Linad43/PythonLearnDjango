@@ -1,15 +1,15 @@
 [
 {
   "model": "catalog.category",
-  "pk": 19,
+  "pk": 21,
   "fields": {
-    "name": "Смартфоны",
+    "name": "Смартфон",
     "description": "Многофункциональные электронные устройства"
   }
 },
 {
   "model": "catalog.category",
-  "pk": 20,
+  "pk": 22,
   "fields": {
     "name": "Еда",
     "description": "То что употребляется в пищу"

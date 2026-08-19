@@ -1,54 +1,54 @@
 [
 {
   "model": "catalog.product",
-  "pk": 36,
+  "pk": 41,
   "fields": {
     "name": "Яблоко",
     "description": null,
     "image": "",
-    "category": 20,
+    "category": 22,
     "price": "8.00",
-    "created_at": "2026-08-19T16:04:11.345Z",
-    "updated_at": "2026-08-19T16:04:11.397Z"
+    "created_at": "2026-08-19T16:54:43.551Z",
+    "updated_at": "2026-08-19T16:55:01.473Z"
   }
 },
 {
   "model": "catalog.product",
-  "pk": 38,
+  "pk": 43,
   "fields": {
     "name": "Пицца",
     "description": null,
     "image": "",
-    "category": 20,
+    "category": 22,
     "price": "30.00",
-    "created_at": "2026-08-19T16:04:11.363Z",
-    "updated_at": "2026-08-19T16:04:11.363Z"
+    "created_at": "2026-08-19T16:54:43.571Z",
+    "updated_at": "2026-08-19T16:54:43.571Z"
   }
 },
 {
   "model": "catalog.product",
-  "pk": 39,
+  "pk": 44,
   "fields": {
     "name": "Смартфон простой",
     "description": null,
     "image": "",
-    "category": 19,
+    "category": 21,
     "price": "5000.00",
-    "created_at": "2026-08-19T16:04:11.372Z",
-    "updated_at": "2026-08-19T16:04:11.372Z"
+    "created_at": "2026-08-19T16:54:43.580Z",
+    "updated_at": "2026-08-19T16:54:43.580Z"
   }
 },
 {
   "model": "catalog.product",
-  "pk": 40,
+  "pk": 45,
   "fields": {
     "name": "Крутой телефон",
     "description": null,
     "image": "",
-    "category": 19,
+    "category": 21,
     "price": "10000.00",
-    "created_at": "2026-08-19T16:04:11.381Z",
-    "updated_at": "2026-08-19T16:04:11.381Z"
+    "created_at": "2026-08-19T16:54:43.590Z",
+    "updated_at": "2026-08-19T16:54:43.590Z"
   }
 }
 ]
