@@ -24,7 +24,7 @@
                     <li>- {{ product.description|default:"Описание отсутствует"|truncatechars:100 }}</li>
                 </ul>
                 <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
-                <a href="/product_details/{{ product.id }}/" class="btn btn-primary">Подробнее</a>
+                <a href="{% url 'catalog:product_details' id_product=product.pk %}" class="btn btn-primary">Подробнее</a>
             </div>
         </div>
     </div>
