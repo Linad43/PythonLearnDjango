@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "catalog",
     "blogs",
+    "users",
 ]
+AUTH_USER_MODEL = 'users.User'
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -117,6 +119,19 @@ STATIC_URL = "static/"
 
 MAILERS = {
     "default": {
-        "BACKEND": "django.core.mail.backends.console.EmailBackend",
+        "BACKEND": "django.core.email.backends.console.EmailBackend",
     },
 }
+
+LOGIN_URL = 'users:login'
+LOGIN_REDIRECT_URL = 'catalog:home' # задает URL-адрес, на который будет перенаправлен пользователь после успешного входа в систему.
+LOGOUT_REDIRECT_URL = 'users:logout' # задает URL-адрес, на который будет перенаправлен пользователь после выхода из системы.
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # определяет, какой бэкенд использовать для отправки писем
+# EMAIL_HOST = 'smtp.your-email-provider.com' # адрес SMTP-сервера.
+# EMAIL_PORT = 587 # порт SMTP-сервера.
+# EMAIL_USE_TLS = True # включает использование TLS для шифрования соединения.
+# EMAIL_USE_SSL = False # включает использование SSL для шифрования соединения.
+# EMAIL_HOST_USER = 'your-email@example.com' # имя пользователя для аутентификации на SMTP-сервере.
+# EMAIL_HOST_PASSWORD = 'your-email-password' # пароль для аутентификации на SMTP-сервере.
+# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER # адрес электронной почты по умолчанию, с которого будут отправляться письма.
