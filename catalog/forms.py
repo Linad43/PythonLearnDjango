@@ -18,7 +18,13 @@ FORBIDDEN_WORDS = [
 class ProductForm(ModelForm):
     class Meta:
         model = Product
-        fields = "__all__"
+        fields = (
+            "name",
+            "description",
+            "price",
+            "category",
+            "image",
+        )
 
     def clean_name(self):
         name = self.cleaned_data["name"]
