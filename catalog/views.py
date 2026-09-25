@@ -1,6 +1,15 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views import View
+from django.views.generic import (
+    TemplateView,
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+)
 
 from .forms import ProductForm
 from .models import Product
@@ -33,38 +42,55 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     form_class = ProductForm
     success_url = reverse_lazy('catalog:catalog')
 
-    # pk_url_kwarg = "id_product"
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
+class ProductUpdateView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    UpdateView,
+):
     model = Product
     template_name = "product_form.html"
     form_class = ProductForm
     pk_url_kwarg = "id_product"
     success_url = reverse_lazy("catalog:catalog")
 
+    def test_func(self):
+        return self.get_object().owner == self.request.user
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(
+    LoginRequiredMixin,
+    UserPassesTestMixin,
+    DeleteView,
+):
     model = Product
     template_name = "product_confirm_delete.html"
     pk_url_kwarg = "id_product"
     success_url = reverse_lazy("catalog:catalog")
+    def test_func(self):
+        product = self.get_object()
+        is_owner = product.user == self.request.user
+        is_moderator = self.request.user.has_perm(
+            'catalog.delete_product',
+        )
+        return is_owner or is_moderator
 
-# def home(request):
-#     return render(request, 'home.html')
-#
-#
-# def contacts(request):
-#     return render(request, 'contacts.html')
-#
-#
-# def catalog(request):
-#     return render(request,
-#                   'catalog.html',
-#                   {"products": Product.objects.all()}
-#                   )
-#
-#
-# def product_details(request, id_product):
-#     product = Product.objects.get(id=id_product)
-#     return render(request, 'product_details.html', {"product": product})
+class ProductUnpublishView(
+    LoginRequiredMixin,
+    View,
+):
+    def post(self, request, id_product):
+        product = get_object_or_404(Product, pk=id_product)
+        if not request.user.has_perm('catalog.can_unpublish_product'):
+            from django.core.exceptions import PermissionDenied
+            raise PermissionDenied
+        product.published = False
+        product.save(update_fields=['published'])
+        return redirect(
+            'catalog:product_details',
+            id_product=product.pk,
+        )
