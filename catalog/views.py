@@ -1,7 +1,9 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import (
     TemplateView,
     ListView,
@@ -13,6 +15,7 @@ from django.views.generic import (
 
 from .forms import ProductForm
 from .models import Product
+from .services import get_products_by_category
 
 
 class HomeView(TemplateView):
@@ -29,6 +32,7 @@ class CatalogView(ListView):
     context_object_name = "products"
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailsView(LoginRequiredMixin, DetailView):
     model = Product
     template_name = "product_details.html"
@@ -71,6 +75,7 @@ class ProductDeleteView(
     template_name = "product_confirm_delete.html"
     pk_url_kwarg = "id_product"
     success_url = reverse_lazy("catalog:catalog")
+
     def test_func(self):
         product = self.get_object()
         is_owner = product.user == self.request.user
@@ -78,6 +83,7 @@ class ProductDeleteView(
             'catalog.delete_product',
         )
         return is_owner or is_moderator
+
 
 class ProductUnpublishView(
     LoginRequiredMixin,
@@ -94,3 +100,12 @@ class ProductUnpublishView(
             'catalog:product_details',
             id_product=product.pk,
         )
+
+
+class ProductsByCategoryView(TemplateView):
+    template_name = "products_by_category.html"
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        category_id = self.kwargs["category_id"]
+        context["products"] = get_products_by_category(category_id)
+        return context
