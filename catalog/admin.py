@@ -1,9 +1,13 @@
 from django.contrib import admin
 
+from mailings.models import Recipient, Message, Mailing, MailingAttempt
 from .models import Category, Product
 
-# admin.site.register(Category)
-# admin.site.register(Product)
+
+admin.site.register(Recipient)
+admin.site.register(Message)
+admin.site.register(Mailing)
+admin.site.register(MailingAttempt)
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):

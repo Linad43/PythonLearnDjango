@@ -47,7 +47,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('catalog:catalog')
 
     def form_valid(self, form):
-        form.instance.user = self.request.user
+        form.instance.owner = self.request.user
         return super().form_valid(form)
 
 
@@ -78,7 +78,7 @@ class ProductDeleteView(
 
     def test_func(self):
         product = self.get_object()
-        is_owner = product.user == self.request.user
+        is_owner = product.owner == self.request.user
         is_moderator = self.request.user.has_perm(
             'catalog.delete_product',
         )

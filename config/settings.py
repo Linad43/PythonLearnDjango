@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "catalog",
     "blogs",
     "users",
+    "mailings",
 ]
 AUTH_USER_MODEL = 'users.User'
 
@@ -128,13 +129,13 @@ STATIC_URL = "static/"
 
 MAILERS = {
     "default": {
-        "BACKEND": "django.core.email.backends.console.EmailBackend",
+        "BACKEND": "django.core.mail.backends.console.EmailBackend",
     },
 }
 
 LOGIN_URL = 'users:login'
-LOGIN_REDIRECT_URL = 'catalog:home' # задает URL-адрес, на который будет перенаправлен пользователь после успешного входа в систему.
-LOGOUT_REDIRECT_URL = 'users:logout' # задает URL-адрес, на который будет перенаправлен пользователь после выхода из системы.
+LOGIN_REDIRECT_URL = 'catalog:home'  # задает URL-адрес, на который будет перенаправлен пользователь после успешного входа в систему.
+LOGOUT_REDIRECT_URL = 'users:logout'  # задает URL-адрес, на который будет перенаправлен пользователь после выхода из системы.
 
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend' # определяет, какой бэкенд использовать для отправки писем
 # EMAIL_HOST = 'smtp.your-email-provider.com' # адрес SMTP-сервера.

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Сервис рассылок
+{% endblock %}
+
+{% block description %}
+    <h1>Сервис рассылок</h1>
+    <p class="lead">
+        Статистика сервиса
+    </p>
+{% endblock %}
+
+{% block base_element %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ mailings_count }}</h2>
+                <p class="card-text">
+                    Всего рассылок
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ active_mailings_count }}</h2>
+                <p class="card-text">
+                    Активных рассылок
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ recipients_count }}</h2>
+                <p class="card-text">
+                    Получателей
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}

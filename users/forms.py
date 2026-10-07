@@ -1,45 +1,54 @@
-import re
+from django.contrib.auth import get_user_model
+from django.contrib.auth.forms import AuthenticationForm
+from django import forms
 
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from django.forms import forms
-
-from users.models import User
+User = get_user_model()
 
 
-class RegistrationForm(UserCreationForm):
+class RegistrationForm(forms.ModelForm):
+    password = forms.CharField(
+        label="Пароль",
+        widget=forms.PasswordInput,
+    )
+    password_confirm = forms.CharField(
+        label="Подтверждение пароля",
+        widget=forms.PasswordInput,
+    )
+
     class Meta:
         model = User
-        fields = ("email", "password1", "password2")
+        fields = [
+            "email",
+            "password",
+            "password_confirm",
+        ]
 
-    # def clean_email(self):
-    #     email = self.cleaned_data["email"]
-    #     if email is None:
-    #         raise forms.ValidationError(
-    #             "Поле не может быть пустым."
-    #         )
-    #
-    #     pattern = r'^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,7}$'
-    #     if re.fullmatch(pattern, email) == False:
-    #         raise forms.ValidationError(
-    #             "Некорректтный формат email."
-    #         )
-    #     return email
-    #
-    # def clean_num_phone(self):
-    #     num_phone = self.cleaned_data["num_phone"]
-    #     pattern = r'^(\+7|8)(\s|-|\()\d{3}(\s|-|\)|\)$'
-    #     if re.match(pattern, num_phone) == False:
-    #         raise forms.ValidationError(
-    #             "Некорректный формат номера телефона."
-    #         )
-    #
-    #     return num_phone
+    def clean(self):
+        cleaned_data = super().clean()
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #
-    #     for field in self.fields.values():
-    #         field.widget.attrs["class"] = "form-control"
+        password = cleaned_data.get("password")
+        password_confirm = cleaned_data.get("password_confirm")
+
+        if password and password_confirm and password != password_confirm:
+            raise forms.ValidationError(
+                "Пароли не совпадают."
+            )
+
+        return cleaned_data
+
+    def save(self, commit=True):
+        user = super().save(commit=False)
+        user.username = user.email
+        user.set_password(
+            self.cleaned_data["password"]
+        )
+
+        user.is_active = False
+
+        if commit:
+            user.save()
+
+        return user
 
 
 class LoginForm(AuthenticationForm):
