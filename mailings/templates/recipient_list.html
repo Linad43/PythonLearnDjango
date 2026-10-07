@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Получатели
+{% endblock %}
+
+{% block description %}
+    <h1>Получатели</h1>
+    <p class="lead">
+        Список получателей рассылок
+    </p>
+{% endblock %}
+
+{% block base_element %}
+
+<a href="{% url 'mailings:recipient_create' %}"
+   class="btn btn-primary mb-3">
+    Добавить получателя
+</a>
+
+{% if recipients %}
+
+    {% for recipient in recipients %}
+
+        <div class="card mb-3">
+            <div class="card-body">
+
+                <h5 class="card-title">
+                    {{ recipient.full_name }}
+                </h5>
+
+                <p class="card-text">
+                    <strong>Email:</strong>
+                    {{ recipient.email }}
+                </p>
+
+                {% if recipient.comment %}
+                    <p class="card-text">
+                        <strong>Комментарий:</strong>
+                        {{ recipient.comment }}
+                    </p>
+                {% endif %}
+
+                <a href="{% url 'mailings:recipient_update' recipient.pk %}"
+                   class="btn btn-warning">
+                    Изменить
+                </a>
+
+                <a href="{% url 'mailings:recipient_delete' recipient.pk %}"
+                   class="btn btn-danger">
+                    Удалить
+                </a>
+
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+
+    <p>Получателей пока нет.</p>
+
+{% endif %}
+
+{% endblock %}

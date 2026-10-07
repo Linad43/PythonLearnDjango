@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Статистика
+{% endblock %}
+
+{% block description %}
+    <h1>Статистика и отчёты</h1>
+    <p class="lead">
+        Результаты отправки рассылок
+    </p>
+{% endblock %}
+
+{% block base_element %}
+
+<div class="row">
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ successful_attempts }}</h2>
+                <p class="card-text">
+                    Успешных попыток
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ failed_attempts }}</h2>
+                <p class="card-text">
+                    Неуспешных попыток
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="card text-center">
+            <div class="card-body">
+                <h2>{{ sent_messages }}</h2>
+                <p class="card-text">
+                    Отправленных сообщений
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
